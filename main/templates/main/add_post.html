@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load category_tags %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block category%}
+{% endblock category%}
+
+{% block main %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Add Post</button>
+</form>
+{% endblock main %}
+
+
+
+
+
+
+
+

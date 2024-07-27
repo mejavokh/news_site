@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load category_tags %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block category%}
+<ul class="list-group list-group-flush">
+    {% get_categories as categories %}
+    {% for category in categories %}
+    <li class="list-group-item">
+        <a href="{% url 'news_by_categories' category.id %}">{{ category.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock category%}
+
+{% block main %}
+
+{% for new in news %}
+<div class="card mb-3" style="max-width: 540px; border: None;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img class="card-img" src="{{ new.photo.url }}" alt="Card image cap">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <a href="{% url 'news_by_categories' new.category.id %}" class="card-text">{{ new.category }}</a>
+                <br>
+                <a href="{% url 'news_detail' new.pk %}" class="card-title">{{ new.title }}</a>
+                <p class="card-text">{{ new.desc|truncatewords:10 }}</p>
+                <b>{{ new.created_at }} Просмотры: {{ new.views }}</b>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock main %}
+

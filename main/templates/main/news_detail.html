@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load category_tags %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block category%}
+<ul class="list-group list-group-flush">
+    {% get_categories as categories %}
+    {% for category in categories %}
+    <li class="list-group-item">
+        <a href="{% url 'news_by_categories' category.id %}">{{ category.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock category%}
+
+{% block main %}
+<div class="card mb-3" style="max-width: 540px; border: None;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img class="card-img" src="{{ news.photo.url }}" alt="Card image cap">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <a href="{% url 'news_by_categories' news.category.id %}" class="card-text">{{ news.category }}</a>
+                <br>
+                <a href="#" class="card-title">{{ news.title }}</a>
+                <p class="card-text">{{ news.desc }}</p>
+                <b>{{ news.created_at }} Просмотры: {{ news.views }}</b>
+            </div>
+
+            {% if comments.exists %}
+            <div class="card mt-3 shadow p-3">
+                <div class="card-header">
+                    <div class="text-center">Комментарий</div>
+                </div>
+                <div class="mt-2">
+                    {% for comment in comments %}
+                    <h4>{{ comment.author }}</h4>
+                    <p>{{ comment.text }}</p>
+                    <em>{{ comment.created_at }}</em>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if request.user.is_authenticated %}
+            <div class="m-2">
+                <form action="{% url 'create_comment' news.pk %}"
+                      method="post">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" >
+                        Оставить комментарий
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock main %}
+

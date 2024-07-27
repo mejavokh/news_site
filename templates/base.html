@@ -1,0 +1,32 @@
+<!doctype html>
+<!--{% load static %}-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% include 'components/_links.html' %}
+    <title>
+        {% block title %}
+        {% endblock title %}
+    </title>
+</head>
+<body style="background: #f7f5f9;">
+<div class="m-3">
+    {% include 'components/_navbar.html' %}
+</div>
+
+<div class="m-3 d-flex">
+        <div class="col-md-3">
+            {% block category %}
+            {% endblock category %}
+        </div>
+
+        <div class="col-md-9">
+            {% block main %}
+            {% endblock main %}
+        </div>
+</div>
+
+
+</body>
+</html>
